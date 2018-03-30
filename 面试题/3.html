@@ -13,7 +13,32 @@
     <li>4</li>
     <li>5</li>
     <li>6</li>
+    <script type="text/javascript">
+        var list_li = document.getElementsByTagName("li");
+        for (var i = 0; i < list_li.length; i++) {
+            list_li[i].onclick = function () {
+                console.log(i)
+            }
+        }
+    </script>
+    <hr>
+    <p>为什么会出现这种点击都是6的情况? 原理:</p>
+    <p>
+        应为js 是单线程的,为什么要是单线程呢? 因为它要保护DOM,如果是多线程就会破坏DOM;所以当初设计js单线程就是专门
+        为网页服务的, <br>
+        扩展:进程可以有多个线程;比如chrome每一个tab页就是一个进程,在页面里操作就是进程,所以chrome现在速度要快;
+        js线程中又分两个队列,
+        <script>setTimeout(function () {
+            alert(2)
+        }, 0);
+        alert(1);</script>
+        同步队列: alert console for
+        异步队列: ajax click setTimeout
+        正确情况下 是同步优于异步队列执行;
+    </p>
 </ul>
+
+
 <!--1-->
 <!--<script type="text/javascript">-->
 <!--var list_li = document.getElementsByTagName("li");-->
@@ -23,40 +48,89 @@
 <!--}-->
 <!--}-->
 <!--</script>-->
+
 <!--2-->
 <!--<script type="text/javascript">-->
-    <!--var arr = document.getElementsByTagName("li");-->
-    <!--var makeArray = function (obj) {-->
-        <!--return Array.prototype.slice.call(obj, 0);-->
-    <!--}-->
-    <!--try {-->
-        <!--Array.prototype.slice.call(document.documentElement.childNodes, 0)[0].nodeType;-->
-    <!--} catch (e) {-->
-        <!--makeArray = function (obj) {-->
-            <!--var res = [];-->
-            <!--for (var i = 0, len = obj.length; i < len; i++) {-->
-                <!--res.push(obj[i]);-->
-            <!--}-->
-            <!--return res;-->
-        <!--}-->
-    <!--}-->
-    <!--arr = makeArray(arr);-->
-    <!--// console.log(arr)-->
-    <!--arr.map(function(item,index,arr){-->
-        <!--item.onclick=function () {-->
-            <!--console.log(this.innerText)-->
-        <!--}-->
-    <!--})-->
+<!--var arr = document.getElementsByTagName("li");-->
+<!--var makeArray = function (obj) {-->
+<!--return Array.prototype.slice.call(obj, 0);-->
+<!--}-->
+<!--try {-->
+<!--Array.prototype.slice.call(document.documentElement.childNodes, 0)[0].nodeType;-->
+<!--} catch (e) {-->
+<!--makeArray = function (obj) {-->
+<!--var res = [];-->
+<!--for (var i = 0, len = obj.length; i < len; i++) {-->
+<!--res.push(obj[i]);-->
+<!--}-->
+<!--return res;-->
+<!--}-->
+<!--}-->
+<!--arr = makeArray(arr);-->
+<!--// console.log(arr)-->
+<!--arr.map(function(item,index,arr){-->
+<!--item.onclick=function () {-->
+<!--console.log(this.innerText)-->
+<!--}-->
+<!--})-->
 <!--</script>-->
+
 <!--3-->
-<script>
-    var arr = document.getElementsByTagName("li");
-    arr=[...arr];
-    arr.map(function(item,index,arr) {
-        item.onclick = function () {
-            console.log(this.innerText)
-        }
-    })
-</script>
+<!--<script>-->
+<!--var arr = document.getElementsByTagName("li");-->
+<!--arr=[...arr];-->
+<!--arr.map(function(item,index,arr) {-->
+<!--item.onclick = function () {-->
+<!--console.log(this.innerText)-->
+<!--}-->
+<!--})-->
+<!--</script>-->
+
+<!--4,闭包解题-->
+<!--闭包呢,就是拿到本该不属于我的东西; 解释成人话就是:-->
+<!--实例代码1-->
+<!--function pp(){-->
+<!--var a=1;-->
+<!--return function(){-->
+<!--return a;-->
+<!--}-->
+<!--}-->
+<!--var a=pp();-->
+<!--首先js 是函数级作用域(外部拿不到内部的变量,就是函数级作用域), 这时需要一个函数体把里面a 给扔出去,那么为什么要用函数体把a 扔出去,-->
+<!--那么问题来了 为什么 不能直接像 事例代码2一样直接扔变量a 呢?-->
+<!--实例代码2-->
+<!--function pp(){-->
+<!--var a=1;-->
+<!--return a;-->
+<!--}-->
+<!--var a=pp();-->
+<!--这里有一个GC 垃圾回收机制(Garbage Collection),变量使用完了.就会被回收掉. 如果是用函数体包裹的话GC就不敢回收掉,如果回收了就会报-->
+<!--is not defined..错误,函数能保护变量; 场景就是我们所说的内存泄漏; 一般用完了 a=null  ,就通知GC 来回垃圾-->
+
+<!--<script type="text/javascript">-->
+    <!--var list_li = document.getElementsByTagName("li");-->
+    <!--for (var i = 0; i < list_li.length; i++) {-->
+        <!--(function (i) {-->
+            <!--list_li[i].onclick = function () {-->
+                <!--console.log(i)-->
+            <!--}-->
+        <!--})(i)-->
+
+    <!--}-->
+<!--</script>-->
+<!--5  let 块级作用域-->
+<!--
+let a=1;翻译成es5{var a=1;}
+-->
+<!--<script type="text/javascript">-->
+    <!--var list_li = document.getElementsByTagName("li");-->
+    <!--for (let i = 0; i < list_li.length; i++) {-->
+        <!--list_li[i].onclick = function () {-->
+            <!--console.log(i)-->
+        <!--}-->
+
+    <!--}-->
+<!--</script>-->
+<!--6 用 e.target-->
 </body>
 </html>
