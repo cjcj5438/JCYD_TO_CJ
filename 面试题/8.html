@@ -4,29 +4,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-    <!-- jq版本的不同
-    jq 1.0 针对ie6的
-    jq 2.0 废弃整合
-    jq 3.0 发力移动端
-    -->
-    <script src="Concurrent.Thread.js"></script>
 </head>
 <body>
-<!-- 原理 把主线程 拉到异步对列-->
-<h1>请问点击 会有反应么？为什么？能解决么</h1>
-
-<button id="test">test</button>
-<script type="text/x-script.multithreaded-js">
+<h1>请问点击<button id="test">test</button>会有反应么？为什么？能解决么</h1>
+<script>
+    debugger
     $('#test').click(function (argument) {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>1");
+        console.log(1);
     });
     setTimeout(function () {
         console.log(2);
     }, 0);
 
     while (true) {
-        console.log(Math.random());
+        debugger
+        console.log(3);
     }
+
 </script>
 
 </body>
