@@ -13,7 +13,9 @@
 </head>
 <body>
 <!-- 原理 把主线程 拉到异步对列-->
-<h1>请问点击<button id="test">test</button>会有反应么？为什么？能解决么</h1>
+<h1>请问点击 会有反应么？为什么？能解决么</h1>
+
+<button id="test">test</button>
 <script type="text/x-script.multithreaded-js">
     $('#test').click(function (argument) {
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>1");
@@ -25,7 +27,6 @@
     while (true) {
         console.log(Math.random());
     }
-
 </script>
 
 </body>
