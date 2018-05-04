@@ -25,12 +25,12 @@ const fetch=()=>{
             .catch(()=>{ reject("err")})
     })
 }
-async(()=>{
-    const result1=await fetch("a.php");
-    if (result1=="err"){}
-    const result2=await fetch("a.php");
-    const result3=await fetch("a.php");
-console.log(result1,result2,result3);
+// async(()=>{
+//     const result1=await fetch("a.php");
+//     if (result1=="err"){}
+//     const result2=await fetch("a.php");
+//     const result3=await fetch("a.php");
+// console.log(result1,result2,result3);
 
 })
 /*
